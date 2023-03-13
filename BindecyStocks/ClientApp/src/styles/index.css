@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&display=swap');
+
+
+*{
+    font-family: "Maven Pro","Segoe UI", "Roboto","Helvetica Neue", "sans-serif";
+    color: #222222
+}
+
+body {
+    @apply pb-8
+}
+
+#title {
+    @apply text-5xl font-semibold text-center pb-8 pt-8 drop-shadow-md text-[#005fea]
+}
+
+#stocksList {
+    @apply flex flex-row flex-wrap w-full justify-center items-center gap-6
+}
+
+.stockCard {
+    @apply font-semibold flex flex-col px-4 py-1 border rounded-lg shadow-btn cursor-pointer transition-colors duration-300
+}
+
+.stockCard:hover,
+#datePickerContainer button:hover {
+    @apply bg-[#E0E0E0] border-[#888888]
+}
+
+.stockCard:has(input:checked) {
+    @apply bg-[#72B2E4] text-[#FCFCFC] border-[#afafaf]
+}
+
+.stockCard input {
+    @apply hidden
+}
+
+#stockDataTable {
+    @apply w-5/6 m-auto rounded-lg shadow-btn
+}
+
+#stockDataTable thead tr th {
+    @apply text-white bg-[#72B2E4] text-lg border border-[#888888]
+}
+#stockDataTable thead tr th span {
+    @apply text-white font-bold text-sm
+}
+
+
+#stockDataTable tbody tr td {
+    @apply border text-center border-[#888888]
+}
+
+#stockDataTable tbody tr:nth-child(even) {
+    @apply bg-[#ECECEC] border
+}
+
+.chevron {
+    @apply w-6
+}
+
+#dataContainer {
+    @apply flex gap-2 mx-auto flex-col pt-6
+}
+
+#dataContainer #filtersContainer {
+    @apply flex flex-col w-full justify-center items-center
+}
+#datePickerContainer {
+    @apply flex flex-row gap-6 justify-center items-center
+}
+#datePickerContainer .datePickerLabel {
+    @apply flex flex-row items-center gap-1
+}
+#datePickerContainer .datePickerLabel span {
+    @apply font-semibold
+}
+#datePickerContainer .datePickerLabel input {
+    @apply border rounded-lg px-4 py-1
+}
+#datePickerContainer button {
+    @apply shadow-btn px-4 py-1.5 border rounded-lg font-semibold transition-all duration-300
+}
+
+#paginationContainer {
+    @apply flex flex-row w-5/6 justify-between items-center
+}
+#paginationContainer #pageSizeContainer {
+    @apply flex flex-row gap-1
+}
+
+#paginationContainer #pageSizeContainer label:has(input:checked){
+    @apply bg-neutral-400 text-[#FCFCFC] border-neutral-500
+}
+
+#paginationContainer #pageSizeContainer label {
+    @apply flex flex-col px-1.5 py-2 border rounded-lg shadow-btn cursor-pointer transition-colors duration-300
+}
+
+#paginationContainer #pageSizeContainer label:has(input:checked) span {
+ @apply text-[#FCFCFC]
+}
+#paginationContainer #pageSizeContainer label input {
+    @apply hidden
+}
+
+#paginationContainer #pageNavContainer {
+    @apply flex items-center gap-1.5
+}
+
+#paginationContainer #pageNavContainer button {
+    @apply border border-zinc-200 rounded-lg px-1 py-2 bg-zinc-100 transition-colors duration-300
+}
+#paginationContainer #pageNavContainer button:not(:disabled):hover {
+    @apply bg-neutral-300 text-[#FCFCFC] border-neutral-400
+}
+#paginationContainer #pageNavContainer button:disabled {
+    @apply opacity-50
+}
+
+#noData {
+    @apply flex flex-col gap-1.5 text-center py-8
+}
+#noData h3 {
+    @apply text-4xl
+}
