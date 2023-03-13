@@ -1,5 +1,5 @@
 
-function DatesPickers({minDate, maxDate,startDateInput,endDateInput,resetBtn,inputHandler}) {
+function DatesPickers({minDate, maxDate,startDateInput,endDateInput,inputHandler,resetHandler}) {
     return (
         <div id="datePickerContainer">
             <label className="datePickerLabel">
@@ -10,7 +10,7 @@ function DatesPickers({minDate, maxDate,startDateInput,endDateInput,resetBtn,inp
                 <span>End Date</span>
                 <input ref={endDateInput} type="date" name="endDate" min={minDate} max={maxDate} onInput={inputHandler}/>
             </label >
-            <button type="button" ref={resetBtn} onClick={inputHandler}>
+            <button type="button" onClick={resetHandler}>
                 Clear Dates
             </button>
         </div>

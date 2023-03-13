@@ -20,24 +20,32 @@ function StockTable({stock}) {
     const [sortBy,setSortBy] = useState('');
     const startDateInput = useRef();
     const endDateInput = useRef();
-    const resetBtn = useRef();
     
     const fetchData = async (stock,page) => {
-        const response = await fetch(
-            `api/stocks/${stock}?startDate=${startDate ?? startDate}&endDate=${endDate ?? endDate}&page=${page !== undefined ? page : currentPage}&pageSize=${pageSize}&sortBy=${sortBy??''}&sortDir=${sortDir}`);
-        const data = await response.json();
-        setTableData(data["stockData"]);
-        setMinDate(data["startDate"]);
-        setMaxDate(data["endDate"]);
-        setNumOfPages(data["numberOfPages"]);
-        setNumOfEntries(data["totalRecords"]);
-        console.log(data)
-        const cols = []
-        if (data["stockData"].length > 0) {
-            Object.keys(data["stockData"][0]).forEach(key => {
-                cols.push({Header:stringToTitle(key),accessor:key})
-            })
-            setColumns(cols)
+        try {
+            const response = await fetch(`api/stocks/${stock}?startDate=${startDate ?? startDate}&endDate=${endDate ?? endDate}&page=${page || currentPage}&pageSize=${pageSize}&sortBy=${sortBy??''}&sortDir=${sortDir}`)
+            const data = await response.json();
+            setTableData(data["stockData"]);
+            setMinDate(data["startDate"]);
+            setMaxDate(data["endDate"]);
+            setNumOfPages(data["numberOfPages"]);
+            setNumOfEntries(data["totalRecords"]);
+            const cols = []
+            if (data["stockData"].length > 0) {
+                Object.keys(data["stockData"][0]).forEach(key => {
+                    cols.push({Header:stringToTitle(key),accessor:key})
+                })
+                setColumns(cols)
+            }
+        }
+        catch (error) {
+            console.log(error);
+            setTableData([]);
+            setColumns([]);
+            setMinDate('');
+            setMaxDate('');
+            setNumOfPages(0);
+            setNumOfEntries(0);
         }
     }
     
@@ -64,11 +72,14 @@ function StockTable({stock}) {
         setCurrentPage(page);
     }
     
-    const datePickerHandler = async (e) => {
-        if (e.target === resetBtn.current) {
-            startDateInput.current.value = '';
-            endDateInput.current.value = '';
-        }
+    const datePickerHandler = (e) => {
+        setStartDate(startDateInput.current?.value);
+        setEndDate(endDateInput.current?.value);
+    }
+
+    const resetDatesFilter = (e) => {
+        startDateInput.current.value = '';
+        endDateInput.current.value = '';
         setStartDate(startDateInput.current?.value);
         setEndDate(endDateInput.current?.value);
     }
@@ -83,34 +94,28 @@ function StockTable({stock}) {
         }
     },[currentPage])
     
-    useEffect(()=>{
+    useEffect(()=> {
         if (stock) {
             setCurrentPage(0)
             fetchData(stock,0)
         }
     },[stock,startDate,endDate,pageSize,sortBy,sortDir])
-    
-    const tableRenderer = () => {
-        if (tableData.length > 0) {
-            return ( 
-                <StockTableData data={tableData} columns={columns} sortBy={sortBy} sortDir={sortDir} sortHandler={sortHandler}/> 
-            )
-        }
-        return (
-            <div id="noData">
-                <h3>No Available Data...</h3>
-                <span>Please select on of the stock above or change your filters</span>
-            </div>
-        )
-    }
-    
     return (
         <div id="dataContainer">
             <div id="filtersContainer">
-                <DatesPickers minDate={minDate} maxDate={maxDate} startDateInput={startDateInput} endDateInput={endDateInput} resetBtn={resetBtn} inputHandler={datePickerHandler}/>
+                <DatesPickers minDate={minDate} maxDate={maxDate} startDateInput={startDateInput} endDateInput={endDateInput} inputHandler={datePickerHandler} resetHandler={resetDatesFilter}/>
                 <Pagination currentPage={currentPage} numOfPages={numOfPages} pagePaginationHandler={pagePaginationHandler} pageSize={pageSize} numOfEntries={numOfEntries} pageSizeHandler={pageSizeHandler} data={tableData}/>
             </div>
-            { tableRenderer() }
+            {
+                tableData.length > 0 ?
+                    <div id="tableContainer">
+                        <StockTableData data={tableData} columns={columns} sortBy={sortBy} sortDir={sortDir} sortHandler={sortHandler}/> 
+                    </div> :
+                    <div id="noData">
+                        <h3>No Available Data...</h3>
+                        <span>Please select on of the stock above or change your filters</span>
+                    </div>
+            }
         </div>
     )
 }

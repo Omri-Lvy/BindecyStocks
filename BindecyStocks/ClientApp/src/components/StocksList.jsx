@@ -14,24 +14,18 @@ function StocksList({stockClickHandler}) {
         getStocksNames();
     },[setStocksNames])
     
-    const stocksListRenderer = () => {
-        if (stocksNames.length <= 0) {
-            return <h3>Loading...</h3>
-        }
-        return (
-            <>
-                {stocksNames.map((name,index)=>{
-                return (
-                    <StockCard key={name+index} name={name} stockClickHandler={stockClickHandler}/>
-                )
-            })}          
-            </>
-        )
-    }
-    
     return (
         <div id="stocksList">
-            {stocksListRenderer()}
+            {
+                stocksNames.length <= 0 ?
+                    <h3>Loading...</h3> :
+                    <>
+                        {stocksNames.map((name,index)=> (
+                                <StockCard key={name} name={name} stockClickHandler={stockClickHandler}/>
+                            )
+                        )}
+                    </>
+            }
         </div>
     );
 }

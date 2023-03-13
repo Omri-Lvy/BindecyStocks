@@ -2,8 +2,8 @@ import PageSizeButtons from "./PageSizeButtons";
 
 
 function Pagination({currentPage, numOfPages, pagePaginationHandler,pageSize, numOfEntries, pageSizeHandler,data}) {
-    if (data.length > 0) {
-        return (
+    return (
+        data.length > 0 ?
             <div id="paginationContainer">
                 <div id="pageNavContainer">
                     <button type="button" value={currentPage-1} onClick={pagePaginationHandler} disabled={currentPage-1 < 0}>
@@ -22,10 +22,7 @@ function Pagination({currentPage, numOfPages, pagePaginationHandler,pageSize, nu
                 </div>
                 <PageSizeButtons pageSizeHandler={pageSizeHandler} pageSize={pageSize}/>
             </div>
-        );
-    }
-    return (
-        <></>
+        : <></>
     )
 }
 

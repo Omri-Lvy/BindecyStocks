@@ -39,16 +39,15 @@ body {
 }
 
 #stockDataTable {
-    @apply w-5/6 m-auto rounded-lg shadow-btn
+    @apply w-5/6 m-auto shadow-btn relative
 }
 
 #stockDataTable thead tr th {
-    @apply text-white bg-[#72B2E4] text-lg border border-[#888888]
+    @apply text-white bg-[#72B2E4] text-lg border border-[#888888] sticky top-0
 }
 #stockDataTable thead tr th span {
     @apply text-white font-bold text-sm
 }
-
 
 #stockDataTable tbody tr td {
     @apply border text-center border-[#888888]
